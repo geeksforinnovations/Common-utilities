@@ -1,0 +1,10 @@
+CognitoUserPoolClient:
+  Type: AWS::Cognito::UserPoolClient
+  Properties:
+    # Generate an app client name based on the stage
+    ClientName: ${self:custom.stage}-user-pool-client
+    UserPoolId:
+      Ref: CognitoUserPool
+    ExplicitAuthFlows:
+      - ADMIN_NO_SRP_AUTH
+    GenerateSecret: false

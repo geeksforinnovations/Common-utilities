@@ -1,0 +1,19 @@
+s3Bucket:
+  Type: AWS::S3::Bucket
+  Properties: 
+    AccessControl: PublicReadWrite
+    BucketName: sample-bucket
+    CorsConfiguration: 
+      CorsRules:
+          -
+            AllowedOrigins:
+              - '*'
+            AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - DELETE
+              - HEAD
+            MaxAge: 3000

@@ -1,0 +1,359 @@
+app: geeks4innovations
+service: dev-release-online-sastry # NOTE: update this with your service name
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+  # - serverless-bundle
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: nodejs10.x #supports upto node 10 max
+  timeout: 20
+  stage: dev
+  region: us-east-1
+
+custom:
+  # Our stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
+  DB_NAME: onlinesastry
+  USERNAME: master
+  PASSWORD: password
+  VPC_CIDR: 10
+  # MYSQL:
+  #   HOST:
+  #     Fn::GetAtt: [MySqlRDSInstance, Endpoint.Address]
+  #   PORT:
+  #     Fn::GetAtt: [MySqlRDSInstance, Endpoint.Port]
+# you can overwrite defaults here
+#  stage: dev
+#  region: us-east-1
+
+# you can add statements to the Lambda function's IAM Role here
+# iamRoleStatements:
+#   - Effect: "Allow"
+#     Action:
+#       - ses:SendEmail
+#       - ses:SendRawEmail
+#     Resource:
+#       - "arn:aws:ses:${self:provider.region}:*:*"
+
+# you can define service wide environment variables here
+#  environment:
+
+# you can add packaging information here
+package:
+  exclude:
+    - __tests__/**
+    - migrations/**
+    - mocks/**
+    - seeders/**
+    - tests/**
+    - readme.md
+environment:
+  stripeSecretKey: ${env:STRIPE_SECRET_KEY}
+  MYSQL_HOST: ${self:custom.MYSQL.HOST}
+  MYSQL_PORT: ${self:custom.MYSQL.PORT}
+  DB_NAME: ${self:custom.DB_NAME}
+  USERNAME: ${self:custom.USERNAME}
+  PASSWORD: ${self:custom.PASSWORD}
+
+functions:
+  hello:
+    handler: handler.hello
+  getAllPujas:
+    handler: functions/index.readAllPujas
+    events:
+      - http:
+          method: get
+          path: pujas
+          cors: true
+  getPuja:
+    handler: functions/index.getPujaById
+    events:
+      - http:
+          method: get
+          path: pujas/{id}
+          cors: true
+  createCustomer:
+    handler: functions/index.createCustomer
+    events:
+      - http:
+          method: get
+          path: payment
+          cors: true
+  payment:
+    handler: functions/index.payment
+    events:
+      - http:
+          method: post
+          path: payment
+          cors: true
+  createPuja:
+    handler: functions/index.createPuja
+    events:
+      - http:
+          method: post
+          path: pujas
+          cors: true
+  updatePuja:
+    handler: functions/index.updatePuja
+    events:
+      - http:
+          method: patch
+          path: pujas
+          cors: true
+  deletePuja:
+    handler: functions/index.deletePuja
+    events:
+      - http:
+          method: delete
+          path: pujas/{id}
+          cors: true
+  getFaq:
+    handler: functions/index.getFaqById
+    events:
+      - http:
+          method: get
+          path: faqs/{id}
+          cors: true
+  getAllFaqs:
+    handler: functions/index.readAllFaqs
+    events:
+      - http:
+          method: get
+          path: faqs
+          cors: true
+  createFaq:
+    handler: functions/index.createFaq
+    events:
+      - http:
+          method: post
+          path: faqs
+          cors: true
+  updateFaq:
+    handler: functions/index.updateFaq
+    events:
+      - http:
+          method: patch
+          path: faqs
+          cors: true
+  deleteFaq:
+    handler: functions/index.deleteFaq
+    events:
+      - http:
+          method: delete
+          path: faqs/{id}
+          cors: true
+  createBooking:
+    handler: functions/index.createBooking
+    events:
+      - http:
+          method: post
+          path: bookings
+          cors: true
+  getAllBookings:
+    handler: functions/index.getAllBookings
+    events:
+      - http:
+          method: get
+          path: bookings
+          cors: true
+  getBookingsByPhoneNumber:
+    handler: functions/index.getBookingsByPhoneNumber
+    events:
+      - http:
+          method: get
+          path: bookings/{id}
+          cors: true
+  deleteBooking:
+    handler: functions/index.deleteBooking
+    events:
+      - http:
+          method: delete
+          path: bookings/{id}
+          cors: true
+  searchPuja:
+    handler: functions/index.searchPuja
+    events:
+      - http:
+          method: get
+          path: searchPuja
+          cors: true
+  getLanguages:
+    handler: functions/index.getLanguages
+    events:
+      - http:
+          method: get
+          path: languages
+          cors: true
+  sendOTP:
+    handler: functions/index.generateOTP
+    events:
+      - http:
+          method: get
+          path: veify/{number}
+          cors: true
+  verifyOtp:
+    handler: functions/index.verifyOtp
+    events:
+      - http:
+          method: post
+          path: veify
+          cors: true
+  createAppSettings:
+    handler: functions/index.createAppSettings
+    events:
+      - http:
+          method: post
+          path: appSettings
+          cors: true
+  cancelBooking:
+    handler: functions/index.cancelBooking
+    events:
+      - http:
+          method: PUT
+          path: bookings/cancel/{id}
+          cors: true
+  reschedule:
+    handler: functions/index.reschedule
+    events:
+      - http:
+          method: PATCH
+          path: bookings
+          cors: true
+  getAllAppSettings:
+    handler: functions/index.getAllAppSettings
+    events:
+      - http:
+          method: get
+          path: appSettings
+          cors: true
+  updateAppSettings:
+    handler: functions/index.updateAppSettings
+    events:
+      - http:
+          method: patch
+          path: appSettings
+          cors: true
+  deleteAppSettings:
+    handler: functions/index.deleteAppSettings
+    events:
+      - http:
+          method: delete
+          path: appSettings/{id}
+          cors: true
+  getAppSettingsValueByKey:
+    handler: functions/index.getAppSettingsValueByKey
+    events:
+      - http:
+          method: get
+          path: appSettings/{id}
+          cors: true
+  sendEmail:
+    handler: functions/index.sendEmail
+    events:
+      - http:
+          method: get
+          path: sendEmail
+          cors: true
+  sendEmails:
+    handler: functions/index.sendEmails
+    events:
+      - http:
+          method: post
+          path: sendEmails
+          cors: true
+  getAllPujaris:
+    handler: functions/index.getAllPujaris
+    events:
+    - http:
+          method: get
+          path: pujaris
+          cors: true
+  getPujari:
+    handler: functions/index.getPujari
+    events:
+    - http:
+          method: get
+          path: pujari/{id}
+          cors: true
+  createPujari:
+    handler: functions/index.createPujari
+    events:
+    - http:
+          method: post
+          path: pujaris
+          cors: true
+  updatePujari:
+    handler: functions/index.updatePujari
+    events:
+    - http:
+          method: post
+          path: updatePujari/{id}
+          cors: true
+  createPujari_review:
+    handler: functions/index.createPujari_review
+    events:
+    - http:
+          method: post
+          path: pujari_review
+          cors: true
+  getAllPujari_reviews:
+    handler: functions/index.getAllPujari_reviews
+    events:
+    - http:
+          method: get
+          path: pujari_reviews
+          cors: true
+  getAllBooking_pendings:
+    handler: functions/index.getAllBooking_pendings
+    events:
+    - http:
+          method: get
+          path: booking_pendings
+          cors: true
+  createBooking_pendings:
+    handler: functions/index.createBooking_pendings
+    events:
+    - http:
+          method: post
+          path: booking_pendings
+          cors: true
+  updateBooking_pendings:
+    handler: functions/index.updateBooking_Pendings
+    events:
+    - http:
+          method: post
+          path: updateBooking_pendings/{id}
+          cors: true
+# you can add CloudFormation resource templates here
+# Create our resources with separate CloudFormation templates
+resources:
+  Resources:
+    # ServerlessInternetGateway: ${file(./resources/ServerlessInternetGateway.yml)}
+    # ServerlessVPC: ${file(./resources/ServerlessVPC.yml)}
+    # ServerlessVPCGA: ${file(./resources/ServerlessVPCGA.yml)}
+    # ServerlessSubnetA: ${file(./resources/ServerlessSubnetA.yml)}
+    # ServerlessSubnetB: ${file(./resources/ServerlessSubnetB.yml)}
+    # ServerlessSubnetC: ${file(./resources/ServerlessSubnetC.yml)}
+    # ServerlessSubnetGroup: ${file(./resources/ServerlessSubnetGroup.yml)}
+    # ServerlessSecurityGroup: ${file(./resources/ServerlessSecurityGroup.yml)}
+    # RouteTablePublic: ${file(./resources/RouteTablePublic.yml)}
+    # RoutePublic: ${file(./resources/RoutePublic.yml)}
+    # RouteTableAssociationSubnetA: ${file(./resources/RouteTableAssociationSubnetA.yml)}
+    # RouteTableAssociationSubnetB: ${file(./resources/RouteTableAssociationSubnetB.yml)}
+    # RouteTableAssociationSubnetC: ${file(./resources/RouteTableAssociationSubnetC.yml)}
+    # MySqlRDSInstance: ${file(./resources/MySqlRDSInstance.yml)}
+    # s3-bucket: ${file(resources/s3-bucket.yml)}
+    # CognitoAuthRole: ${file(resources/CognitoAuthRole.yml)}
+    # CognitoIdentityPool: ${file(resources/CognitoIdentityPool.yml)}
+    # CognitoIdentityPoolRoles: ${file(resources/CognitoIdentityPoolRoles.yml)}
+    # CognitoUserPool: ${file(resources/CognitoUserPool.yml)}
+    # CognitoUserPoolClient: ${file(resources/CognitoUserPoolClient.yml)}
+    # GatewayResponseDefault4XX: ${file(resources/GatewayResponseDefault4XX.yml)}
+    # GatewayResponseDefault5XX: ${file(resources/GatewayResponseDefault5XX.yml)}

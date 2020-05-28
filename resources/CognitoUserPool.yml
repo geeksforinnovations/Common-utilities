@@ -1,0 +1,10 @@
+CognitoUserPool:
+  Type: AWS::Cognito::UserPool
+  Properties:
+    # Generate a name based on the stage
+    UserPoolName: ${self:custom.stage}-user-pool
+    # Set email as an alias
+    UsernameAttributes:
+      - email
+    AutoVerifiedAttributes:
+      - email

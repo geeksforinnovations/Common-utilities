@@ -1,0 +1,40 @@
+{
+  "name": "serverless-online-sastry",
+  "version": "1.0.0",
+  "description": "Serverless webpack example using Typescript",
+  "main": "handler.js",
+  "scripts": {
+    "test": "serverless-bundle test",
+    "debug": "export SLS_DEBUG=* && node --debug ./node_modules/.bin/serverless offline -s dev"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.1.1",
+    "mysql2": "^2.0.0",
+    "sequelize": "^5.21.1",
+    "sequelize-test-helpers": "^1.2.2",
+    "serverless-http": "^2.3.0",
+    "stripe": "^7.10.0",
+    "twilio": "^3.39.2",
+    "validator": "^12.0.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.606.0",
+    "sequelize-cli": "^5.5.1",
+    "serverless-bundle": "^1.2.5",
+    "serverless-dotenv-plugin": "^2.1.1",
+    "serverless-offline": "^6.1.5"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geeksforinnovations/serverless_online_sastry.git"
+  },
+  "bugs": {
+    "url": "https://github.com/geeksforinnovations/serverless_online_sastry/issues"
+  },
+  "homepage": "https://github.com/geeksforinnovations/serverless_online_sastry#readme"
+}

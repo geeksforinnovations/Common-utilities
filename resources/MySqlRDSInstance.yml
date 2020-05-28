@@ -1,0 +1,17 @@
+DependsOn: ServerlessVPCGA
+Type: AWS::RDS::DBInstance
+Properties:
+  MasterUsername: ${self:custom.USERNAME}
+  MasterUserPassword: ${self:custom.PASSWORD}
+  AllocatedStorage: 20
+  DBInstanceIdentifier: ${self:custom.DB_NAME}-${self:custom.stage}
+  DBName: ${self:custom.DB_NAME}
+  StorageType: gp2
+  DBInstanceClass: db.t2.micro
+  VPCSecurityGroups:
+  - !GetAtt ServerlessSecurityGroup.GroupId
+  DBSubnetGroupName:
+    Ref: ServerlessSubnetGroup
+  Engine: mysql
+  EngineVersion: "5.7.28"
+  PubliclyAccessible: true

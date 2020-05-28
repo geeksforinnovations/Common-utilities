@@ -1,0 +1,8 @@
+CognitoIdentityPoolRoles:
+  Type: AWS::Cognito::IdentityPoolRoleAttachment
+  Properties:
+    IdentityPoolId:
+      Ref: CognitoIdentityPool
+    Roles:
+      authenticated:
+        Fn::GetAtt: [CognitoAuthRole, Arn]

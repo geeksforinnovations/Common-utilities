@@ -1,0 +1,71 @@
+# # PUJAS
+# Get All Pujas
+- name: get all pujas returns 200
+  endpoint:
+    method: get
+    path: /pujas
+  response:
+    status: 200
+# Get Puja By ID
+- name: get pujas by Id with 200
+  endpoint:
+    method: get
+    path: /pujas/1
+  response:
+    status: 200
+- name: get pujas by id with 400
+  endpoint:
+    method: get
+    path: /pujas/1sd
+  response:
+    status: 500
+
+## Bookings
+# Get 
+- name: get all Bookings with 200
+  endpoint:
+    method: get
+    path: /bookings
+  response:
+    status: 200
+- name: get Bookings by Id with 200
+  endpoint:
+    method: get
+    path: /bookings/1
+  response:
+    status: 200
+- name: cancel Bookings by Id with 200
+  endpoint:
+    method: put
+    path: /bookings/cancel/1
+  response:
+    status: 200
+
+## App Settings
+- name: get all App Settings  with 200
+  endpoint:
+    method: get
+    path: /appSettings
+  response:
+    status: 200
+- name: get App Settings by key with 200
+  endpoint:
+    method: get
+    path: /appSettings/1
+  response:
+    status: 200
+- name: delete App Settings by key with 200
+  endpoint:
+    method: delete
+    path: /appSettings/1
+  response:
+    status: 200
+
+# Languages
+# Get Languages
+- name: get all languages with 200
+  endpoint:
+    method: get
+    path: /languages
+  response:
+    status: 200
