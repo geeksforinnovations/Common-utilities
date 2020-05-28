@@ -5,3 +5,4 @@ jspm_packages
 .serverless
 # config
 config/config.json
+sendgrid.env

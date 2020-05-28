@@ -13,7 +13,7 @@ provider:
   name: aws
   runtime: nodejs10.x #supports upto node 10 max
   timeout: 20
-  stage: dev
+  stage: devlop
   region: us-east-1
 
 custom:
@@ -55,6 +55,7 @@ package:
     - tests/**
     - readme.md
 environment:
+  sendgridkey: ${env:SENDGRID_API_KEY}
   stripeSecretKey: ${env:STRIPE_SECRET_KEY}
   MYSQL_HOST: ${self:custom.MYSQL.HOST}
   MYSQL_PORT: ${self:custom.MYSQL.PORT}
@@ -65,20 +66,6 @@ environment:
 functions:
   hello:
     handler: handler.hello
-  getAllPujas:
-    handler: functions/index.readAllPujas
-    events:
-      - http:
-          method: get
-          path: pujas
-          cors: true
-  getPuja:
-    handler: functions/index.getPujaById
-    events:
-      - http:
-          method: get
-          path: pujas/{id}
-          cors: true
   createCustomer:
     handler: functions/index.createCustomer
     events:
@@ -92,104 +79,6 @@ functions:
       - http:
           method: post
           path: payment
-          cors: true
-  createPuja:
-    handler: functions/index.createPuja
-    events:
-      - http:
-          method: post
-          path: pujas
-          cors: true
-  updatePuja:
-    handler: functions/index.updatePuja
-    events:
-      - http:
-          method: patch
-          path: pujas
-          cors: true
-  deletePuja:
-    handler: functions/index.deletePuja
-    events:
-      - http:
-          method: delete
-          path: pujas/{id}
-          cors: true
-  getFaq:
-    handler: functions/index.getFaqById
-    events:
-      - http:
-          method: get
-          path: faqs/{id}
-          cors: true
-  getAllFaqs:
-    handler: functions/index.readAllFaqs
-    events:
-      - http:
-          method: get
-          path: faqs
-          cors: true
-  createFaq:
-    handler: functions/index.createFaq
-    events:
-      - http:
-          method: post
-          path: faqs
-          cors: true
-  updateFaq:
-    handler: functions/index.updateFaq
-    events:
-      - http:
-          method: patch
-          path: faqs
-          cors: true
-  deleteFaq:
-    handler: functions/index.deleteFaq
-    events:
-      - http:
-          method: delete
-          path: faqs/{id}
-          cors: true
-  createBooking:
-    handler: functions/index.createBooking
-    events:
-      - http:
-          method: post
-          path: bookings
-          cors: true
-  getAllBookings:
-    handler: functions/index.getAllBookings
-    events:
-      - http:
-          method: get
-          path: bookings
-          cors: true
-  getBookingsByPhoneNumber:
-    handler: functions/index.getBookingsByPhoneNumber
-    events:
-      - http:
-          method: get
-          path: bookings/{id}
-          cors: true
-  deleteBooking:
-    handler: functions/index.deleteBooking
-    events:
-      - http:
-          method: delete
-          path: bookings/{id}
-          cors: true
-  searchPuja:
-    handler: functions/index.searchPuja
-    events:
-      - http:
-          method: get
-          path: searchPuja
-          cors: true
-  getLanguages:
-    handler: functions/index.getLanguages
-    events:
-      - http:
-          method: get
-          path: languages
           cors: true
   sendOTP:
     handler: functions/index.generateOTP
@@ -205,62 +94,6 @@ functions:
           method: post
           path: veify
           cors: true
-  createAppSettings:
-    handler: functions/index.createAppSettings
-    events:
-      - http:
-          method: post
-          path: appSettings
-          cors: true
-  cancelBooking:
-    handler: functions/index.cancelBooking
-    events:
-      - http:
-          method: PUT
-          path: bookings/cancel/{id}
-          cors: true
-  reschedule:
-    handler: functions/index.reschedule
-    events:
-      - http:
-          method: PATCH
-          path: bookings
-          cors: true
-  getAllAppSettings:
-    handler: functions/index.getAllAppSettings
-    events:
-      - http:
-          method: get
-          path: appSettings
-          cors: true
-  updateAppSettings:
-    handler: functions/index.updateAppSettings
-    events:
-      - http:
-          method: patch
-          path: appSettings
-          cors: true
-  deleteAppSettings:
-    handler: functions/index.deleteAppSettings
-    events:
-      - http:
-          method: delete
-          path: appSettings/{id}
-          cors: true
-  getAppSettingsValueByKey:
-    handler: functions/index.getAppSettingsValueByKey
-    events:
-      - http:
-          method: get
-          path: appSettings/{id}
-          cors: true
-  sendEmail:
-    handler: functions/index.sendEmail
-    events:
-      - http:
-          method: get
-          path: sendEmail
-          cors: true
   sendEmails:
     handler: functions/index.sendEmails
     events:
@@ -268,68 +101,12 @@ functions:
           method: post
           path: sendEmails
           cors: true
-  getAllPujaris:
-    handler: functions/index.getAllPujaris
+  sendEmailsByTemplate:
+    handler: functions/index.sendEmailsByTemplate
     events:
-    - http:
-          method: get
-          path: pujaris
-          cors: true
-  getPujari:
-    handler: functions/index.getPujari
-    events:
-    - http:
-          method: get
-          path: pujari/{id}
-          cors: true
-  createPujari:
-    handler: functions/index.createPujari
-    events:
-    - http:
+      - http:
           method: post
-          path: pujaris
-          cors: true
-  updatePujari:
-    handler: functions/index.updatePujari
-    events:
-    - http:
-          method: post
-          path: updatePujari/{id}
-          cors: true
-  createPujari_review:
-    handler: functions/index.createPujari_review
-    events:
-    - http:
-          method: post
-          path: pujari_review
-          cors: true
-  getAllPujari_reviews:
-    handler: functions/index.getAllPujari_reviews
-    events:
-    - http:
-          method: get
-          path: pujari_reviews
-          cors: true
-  getAllBooking_pendings:
-    handler: functions/index.getAllBooking_pendings
-    events:
-    - http:
-          method: get
-          path: booking_pendings
-          cors: true
-  createBooking_pendings:
-    handler: functions/index.createBooking_pendings
-    events:
-    - http:
-          method: post
-          path: booking_pendings
-          cors: true
-  updateBooking_pendings:
-    handler: functions/index.updateBooking_Pendings
-    events:
-    - http:
-          method: post
-          path: updateBooking_pendings/{id}
+          path: sendEmailsByTemplate
           cors: true
 # you can add CloudFormation resource templates here
 # Create our resources with separate CloudFormation templates

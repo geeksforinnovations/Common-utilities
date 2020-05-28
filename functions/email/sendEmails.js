@@ -16,8 +16,8 @@ module.exports = async (event, context, callback) => {
         bcc: emailBody.bcc,
         templateId: 'd-3f73e440a43348dcab62c2bd10639ee1',
         dynamic_template_data: {
-          name: emailBody.name,
-          orderId: emailBody.orderId,
+          parm1: emailBody.name,
+          parm2: emailBody.orderId,
           poojariName: emailBody.poojariName,
         }
       }
