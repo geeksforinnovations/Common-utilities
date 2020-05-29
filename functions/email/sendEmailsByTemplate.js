@@ -5,6 +5,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 module.exports = async (event, context, callback) => {
   try {
     const emailBody = JSON.parse(event.body);
+    console.log(emailBody);
       const msg = {
         to: emailBody.to,
         from: emailBody.from,
@@ -22,8 +23,8 @@ module.exports = async (event, context, callback) => {
           parm8: emailBody.data.parm8,
         }
       }
-      return await sgMail.send(msg);;
-
+     console.log(await sgMail.send(msg));
+     return {"body":"{\"message\":\"success\"}"};
   } catch (error) {
     return helpers.failure({ message: error.response.body });
   }
