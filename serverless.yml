@@ -1,5 +1,5 @@
 app: geeks4innovations
-service: dev-release-online-sastry # NOTE: update this with your service name
+service: dev-release-common-utils # NOTE: update this with your service name
 
 plugins:
   - serverless-dotenv-plugin
